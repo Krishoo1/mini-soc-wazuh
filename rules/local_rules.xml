@@ -1,0 +1,44 @@
+<!-- Mini SOC custom rules. Append to /var/ossec/etc/rules/local_rules.xml on the Wazuh server. -->
+
+<group name="local,mini_soc,authentication,">
+  <rule id="100100" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>5760</if_matched_sid>
+    <same_srcip />
+    <description>Mini-SOC: Possible SSH brute force from $(srcip)</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+</group>
+
+<group name="local,mini_soc,privilege_escalation,">
+  <rule id="100120" level="8">
+    <if_sid>5402,5403</if_sid>
+    <match>COMMAND=/bin/bash|COMMAND=/bin/sh|COMMAND=/usr/bin/bash|COMMAND=/usr/bin/su</match>
+    <description>Mini-SOC: Root shell obtained via sudo</description>
+    <mitre>
+      <id>T1548.003</id>
+    </mitre>
+  </rule>
+</group>
+
+<group name="local,mini_soc,persistence,">
+  <rule id="100110" level="12">
+    <if_sid>5902</if_sid>
+    <description>Mini-SOC: New local user account created</description>
+    <mitre>
+      <id>T1136.001</id>
+    </mitre>
+  </rule>
+</group>
+
+<group name="local,mini_soc,syscheck,">
+  <rule id="100130" level="12">
+    <if_sid>550</if_sid>
+    <field name="file">/etc/ssh/sshd_config</field>
+    <description>Mini-SOC: sshd_config was modified</description>
+    <mitre>
+      <id>T1562.001</id>
+    </mitre>
+  </rule>
+</group>

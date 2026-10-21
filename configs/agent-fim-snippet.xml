@@ -1,0 +1,3 @@
+<!-- Add inside the <syscheck> block of /var/ossec/etc/ossec.conf on the monitored endpoint,
+     then: systemctl restart wazuh-agent -->
+<directories realtime="yes" check_all="yes" report_changes="yes">/etc/ssh</directories>
